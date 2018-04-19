@@ -100,6 +100,10 @@ class HTTPConnection(_HTTPConnection, object):
     #: Disable Nagle's algorithm by default.
     #: ``[(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)]``
     default_socket_options = [(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)]
+    
+    # If TCP_QUICKACK support is available turn it on. (Linux 2.4.4+)
+    if hasattr(socket, 'TCP_QUICKACK'):
+        default_socket_options.append((socket.IPPROTO_TCP, socket.TCP_QUICKACK, 1))
 
     #: Whether this connection verifies the host's certificate.
     is_verified = False
